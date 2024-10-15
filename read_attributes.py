@@ -34,15 +34,18 @@ def call_headers(include_content_type):
 
 def call_security_method(security_method, user_name, user_password):
     """ Create API call security method
-        @param security_method string: Security method to use: basic or kerberos
+        @param security_method string: Security method to use: basic, ntlm or kerberos
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
     """
     from requests.auth import HTTPBasicAuth
     from requests_kerberos import HTTPKerberosAuth
+    from requests_ntlm import HttpNtlmAuth
 
     if security_method.lower() == 'basic':
         security_auth = HTTPBasicAuth(user_name, user_password)
+    elif security_method.lower() == 'ntlm':
+        security_auth = HttpNtlmAuth(user_name, user_password)
     else:
         security_auth = HTTPKerberosAuth(mutual_authentication='REQUIRED',
                                          sanitize_mutual_error_response=False)
@@ -57,12 +60,12 @@ def read_attribute_snapshot(piwebapi_url, asset_server, user_name, user_password
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('readAttributeSnapshot')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -103,12 +106,12 @@ def read_attribute_stream(piwebapi_url, asset_server, user_name, user_password,
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('readAttributeStream')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -155,12 +158,12 @@ def read_attribute_selected_fields(piwebapi_url, asset_server, user_name, user_p
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('readAttributeSelectedFields')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 

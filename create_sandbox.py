@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 
 from requests.auth import HTTPBasicAuth
 from requests_kerberos import HTTPKerberosAuth
+from requests_ntlm import HttpNtlmAuth
 
 OSI_AF_ATTRIBUTE_TAG = 'OSIPythonAttributeSampleTag'
 OSI_AF_CATEGORY = 'OSIPythonCategory'
@@ -46,13 +47,15 @@ def call_headers(include_content_type):
 
 def call_security_method(security_method, user_name, user_password):
     """ Create API call security method
-        @param security_method string: Security method to use: basic or kerberos
+        @param security_method string: Security method to use: basic, ntlm or kerberos
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
     """
 
     if security_method.lower() == 'basic':
         security_auth = HTTPBasicAuth(user_name, user_password)
+    elif security_method.lower() == 'ntlm':
+        security_auth = HttpNtlmAuth(user_name, user_password)
     else:
         security_auth = HTTPKerberosAuth(mutual_authentication='REQUIRED',
                                          sanitize_mutual_error_response=False)
@@ -68,7 +71,7 @@ def create_sandbox(piwebapi_url, asset_server, pi_server, user_name, user_passwo
         @param pi_server string: Name of the PI Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     create_database(piwebapi_url, asset_server, user_name,
@@ -95,12 +98,12 @@ def create_database(piwebapi_url, asset_server, user_name, user_password, piweba
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Create Database')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -144,12 +147,12 @@ def create_category(piwebapi_url, asset_server, user_name, user_password, piweba
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Create Category')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -193,12 +196,12 @@ def create_template(piwebapi_url, asset_server, pi_server, user_name, user_passw
         @param pi_server string: Name of the PI Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Create Template')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -309,12 +312,12 @@ def create_element(piwebapi_url, asset_server, user_name, user_password, piwebap
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Create Element')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -385,12 +388,12 @@ def delete_element(piwebapi_url, asset_server, user_name, user_password, piwebap
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Delete Element')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -426,12 +429,12 @@ def delete_template(piwebapi_url, asset_server, user_name, user_password, piweba
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Delete Template')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -481,12 +484,12 @@ def delete_category(piwebapi_url, asset_server, user_name, user_password, piweba
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Delete Category')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
@@ -521,12 +524,12 @@ def delete_database(piwebapi_url, asset_server, user_name, user_password, piweba
         @param asset_server string: Name of the Asset Server
         @param user_name string: The user's credentials name
         @param user_password string: The user's credentials password
-        @param piwebapi_security_method string: Security method: basic or kerberos
+        @param piwebapi_security_method string: Security method: basic, ntlm or kerberos
         @param verify_ssl: If certificate verification will be performed
     """
     print('Delete Database')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 

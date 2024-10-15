@@ -10,6 +10,7 @@ import requests
 
 from requests.auth import HTTPBasicAuth
 from requests_kerberos import HTTPKerberosAuth
+from requests_ntlm import HttpNtlmAuth
 
 OSI_AF_DATABASE = 'OSIPythonDatabase'
 OSI_AF_ELEMENT = 'OSIPythonElement'
@@ -36,15 +37,17 @@ def call_headers(include_content_type):
 
 
 def call_security_method(security_method, user_name, user_password):
-    """ Create the security method and return a HTTP authorization for basic or kerberos.
+    """ Create the security method and return a HTTP authorization for basic, ntlm or kerberos.
     Parameters:
-        security_method:  security method to use:  basic or kerberos
+        security_method:  security method to use:  basic, ntlm or kerberos
         user_name:  User's credentials name
         user_password:  User's credentials password
     """
 
     if security_method.lower() == 'basic':
         security_auth = HTTPBasicAuth(user_name, user_password)
+    elif security_method.lower() == 'ntlm':
+        security_auth = HttpNtlmAuth(user_name, user_password)
     else:
         security_auth = HTTPKerberosAuth(mutual_authentication='REQUIRED',
                                          sanitize_mutual_error_response=False)
@@ -59,12 +62,12 @@ def do_batch_call(piwebapiurl, asset_server, user_name, user_password, piwebapi_
         assetServer:  the AF server name
         user_name:  User's credentials name
         user_password:  User's credentials password
-        piwebapi_security_method:  Security method:  basic or kerberos
+        piwebapi_security_method:  Security method:  basic, ntlm or kerberos
         piwebapi_verify_certificate:  If certificate verification will be performed
     """
     print('doBatchCall')
 
-    #  create security method - basic or kerberos
+    #  create security method - basic, ntlm or kerberos
     security_method = call_security_method(
         piwebapi_security_method, user_name, user_password)
 
