@@ -39,7 +39,7 @@ def call_security_method(security_method, user_name, user_password):
         @param user_password string: The user's credentials password
     """
     from requests.auth import HTTPBasicAuth
-    from requests_kerberos import HTTPKerberosAuth
+    from requests_kerberos import HTTPKerberosAuth, REQUIRED
     from requests_ntlm import HttpNtlmAuth
 
     if security_method.lower() == 'basic':
@@ -47,7 +47,7 @@ def call_security_method(security_method, user_name, user_password):
     elif security_method.lower() == 'ntlm':
         security_auth = HttpNtlmAuth(user_name, user_password)
     else:
-        security_auth = HTTPKerberosAuth(mutual_authentication='REQUIRED',
+        security_auth = HTTPKerberosAuth(mutual_authentication=REQUIRED,
                                          sanitize_mutual_error_response=False)
 
     return security_auth

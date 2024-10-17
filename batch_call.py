@@ -9,7 +9,7 @@ import random
 import requests
 
 from requests.auth import HTTPBasicAuth
-from requests_kerberos import HTTPKerberosAuth
+from requests_kerberos import HTTPKerberosAuth, REQUIRED
 from requests_ntlm import HttpNtlmAuth
 
 OSI_AF_DATABASE = 'OSIPythonDatabase'
@@ -49,7 +49,7 @@ def call_security_method(security_method, user_name, user_password):
     elif security_method.lower() == 'ntlm':
         security_auth = HttpNtlmAuth(user_name, user_password)
     else:
-        security_auth = HTTPKerberosAuth(mutual_authentication='REQUIRED',
+        security_auth = HTTPKerberosAuth(mutual_authentication=REQUIRED,
                                          sanitize_mutual_error_response=False)
 
     return security_auth
